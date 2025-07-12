@@ -15,45 +15,6 @@
   sudo apt-get install libssl-dev
   sudo apt install build-essential linux-libc-dev
   ```
-- Email software for notifications (choose one):
-- 
-  *(Update the email address in `KeyQuest.cpp` before compiling.)*
-  
-  - **msmtp**:
-    ```bash
-    sudo apt-get install msmtp
-    ```
-    Configure SMTP settings:
-    ```bash
-    sudo nano /etc/msmtprc
-    ```
-    ```bash
-    defaults
-    auth           on
-    tls            on
-    tls_trust_file /etc/ssl/certs/ca-certificates.crt
-    logfile        ~/.msmtp.log
-
-    account        default
-    host           smtp.example.com
-    port           587
-    user           your_username
-    password       your_password
-    from           your_email@example.com
-    ```
-    Ensure `msmtp` is set as the sendmail alternative or adjust `MAIL_PROGRAM` in the code.
-
-    Test email sending:
-    ```bash
-    echo "This is a test." | msmtp your@email.com
-    ```
-  - **sendmail** (alternative):
-    ```bash
-    sudo apt-get install sendmail
-    ```
-    Uses `/usr/sbin/sendmail` by default. Configure sendmail per your distribution's docs.
-
-    ![KeyQuest mail](https://decraene.net/images/keyquest/mail.jpg "KeyQuest mail")
 
 ## Installation
 
@@ -124,7 +85,6 @@ During execution, KeyQuest displays a full-screen live UI with:
 
 When a matching key is found:
 
-- Sends an **HTML email** via `msmtp` (or `sendmail`) containing the private key, public key, WIF & stats.  
 - Appends the result to `keyfound.txt` (encrypted if enabled).  
 
 ## Features
@@ -132,7 +92,6 @@ When a matching key is found:
 - **Hybrid search**: combines sequential prefix scanning and random suffix sampling for exhaustive coverage.
 - **Multi-threaded**: leverages OpenMP; configurable thread count with optional dynamic adjustment (`OMP_DYNAMIC`).
 - **Live statistics**: displays speed (Mkeys/s), progress percentage, total restarts, and per-thread status.
-- **Email alerts**: high-priority HTML notification on key discovery.
 - **Optional encryption**: AES-256-CBC encryption of result file with passphrase protection.
 - **Config persistence**: save and reload settings via `config.txt` for repeatable runs.
 
@@ -245,7 +204,6 @@ If you find **KeyQuest** useful, consider support:
 
 ---
 
-### 5. Email & Encryption
 
 - **Streamlined encryption prompt**  
   - If encryption is enabled in config, prompt for passphrase up front.
@@ -253,8 +211,6 @@ If you find **KeyQuest** useful, consider support:
 - **Same AES-256-CBC + PBKDF2 flow**  
   - Retains `openssl enc -aes-256-cbc -pbkdf2` but with cleaner file-cleanup logic.
 
-- **HTML email template unchanged**  
-  - Presentation and sending via `msmtp` or `sendmail` remain identical.
 
 ---
 
